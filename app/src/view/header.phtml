@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinéStream+ - <?= $title ?? 'Vidéothèque' ?></title> 
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="background-color: #0D0D0D; color: white; margin: 0; font-family: 'DM Sans', Arial, sans-serif;">
+
+    <header class="main-header">
+        <div class="logo-area">
+            <h1 class="logo">CinéStream +</h1>
+            <p class="slogan">Votre cinéma, partout, à tout moment.</p>
+        </div>
+        
+        <nav class="main-nav">
+            <a href="index.php?action=index" class="<?= ($route === 'index') ? 'active' : '' ?>">
+                🎬 VIDÉOTHÈQUE
+            </a>
+            <a href="index.php?action=search" class="<?= ($route === 'search') ? 'active' : '' ?>">
+                🔍 RECHERCHE
+            </a>
+        </nav>
+    </header>

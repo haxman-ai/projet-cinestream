@@ -1,28 +1,36 @@
 <?php
-use cine\App\filmCONtrolller;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__.'/../.env.php';
+require_once __DIR__ . '/../.env.php';
 
-if(isset($_GET['action'])) {
+use Cine\App\Controller\FilmController;
+use Cine\App\Repository\FilmRepository; 
+
+if (isset($_GET['action'])) {
     $route = $_GET['action'];
 } else {
     $route = 'index';
 }
 
 
-$filmCONtroller = new filmCONtroller;
+$repository = new FilmRepository(); 
+
+$filmController = new FilmController($repository);
+
+
 
 if ($route === 'index') {
-    $filmCONtroller->index();
+    $filmController->index();
 } elseif ($route === 'show') {
-    $filmCONtroller->show();
+    $filmController->show();
 } elseif ($route === 'add') {
-    $filmCONtroller->add();
+    $filmController->add();
 } elseif ($route === 'update') {
-    $filmCONtroller->update();
+    $filmController->update();
 } elseif ($route === 'delete') {
-    $filmCONtroller->delete();
-}elseif($route === 'save'){
-    $filmCONtroller->save();
+    $filmController->delete();
+} elseif ($route === 'save') {
+    $filmController->save();
+} else {
+    echo "Désolé, cette page n'existe pas !";
 }
