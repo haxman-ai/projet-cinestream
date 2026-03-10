@@ -12,14 +12,15 @@ class FilmController
     
     public function __construct(FilmRepository $filmRepository)
     {
-        $this->filmRepository = $filmRepository;
+        $this->filmRepository = new FilmRepository;
     }
 
    public function index()
 {
     
     $films = $this->filmRepository->findAll();
-    
+  
+
     $title = "Ma Vidéothèque";
 
     

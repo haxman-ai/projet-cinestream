@@ -1,6 +1,6 @@
 <?php
 
-namespace Biblio\App\Repository;
+namespace cine\App\Repository;
 
 use PDO;
 

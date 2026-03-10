@@ -1,0 +1,73 @@
+
+
+body { 
+    background-color: #0D0D0D; color: white; }
+
+header {
+    background: linear-gradient( #0c0c63, #060b1a);
+    border-bottom: 3px solid #E94560;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+a {
+     color: white;
+     text-decoration: none;
+     margin-left: 20px;
+     margin-right: 20px;
+
+       
+
+}
+
+
+
+h1 {
+    color: #E94560;
+}
+
+
+
+button {
+
+    color : #E94560;
+    background-color:#0D0D0D; ;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    padding: 11PX,26px;
+    margin-left: 50px;
+    
+    
+}
+
+.movie-grid {
+display: flex; 
+flex-direction: row;
+ gap : 10%;
+ border-radius: 12px;
+ margin-top: 30px;;
+ 
+ 
+
+
+
+
+}
+
+img{
+
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+
+
+}
+
+
+
+
+
+
+
+
