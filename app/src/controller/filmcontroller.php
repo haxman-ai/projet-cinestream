@@ -21,11 +21,63 @@ class FilmController
     $films = $this->filmRepository->findAll();
   
 
-    $title = "Ma Vidéothèque";
+    $title = " Vidéothèque";
 
     
     require_once __DIR__ . '/../view/index.phtml';
 }
     
+
+public function add()
+{
+    $films = $this->filmRepository->findById();
+
+    $title = 'recherche';
+
+
+
+    require_once __DIR__ . '/../view/index.phtml';
+
+
+
+
+
+
+}
+
+public function show()
+{
+    $id = $_GET['id'] ?? null;
+
+    if($id) {
+      
+     $film = $this->filmRepository->find($id);
+
+     if($film) {
+        $title = $film['title'];
+        require_once __DIR__ . '/../view/show.phtml';
+     } else {
+        header ('location:index.php');
+        
+     }
+
+
+
+
+
+
+    }
+
+
+
+
+
+}
+
+
+
+
+
+
 
 } 
