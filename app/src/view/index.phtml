@@ -12,14 +12,12 @@
     <a href="index.php" class="tag <?= !isset($_GET['id']) ? 'active' : '' ?>">
         Tous les films
     </a>
-
-    <?php foreach ($genres as $genre) : ?>
-      <a href="index.php?id=<?= $genre->getId() ?>" 
-           class="tag <?= (isset($_GET['id']) && $_GET['id'] == $genre->getId()) ? 'active' : '' ?>">
-            <?= htmlspecialchars($genre->getName()) ?>
-        </a>
-    <?php endforeach; ?>
-    
+<?php foreach ($genres as $genre) : ?>
+    <a href="index.php?action=index&id=<?= $genre->getId() ?>" 
+       class="tag <?= (isset($_GET['id']) && $_GET['id'] == $genre->getId()) ? 'active' : '' ?>">
+        <?= htmlspecialchars($genre->getName()) ?>
+    </a>
+<?php endforeach; ?>
     <button><a href="index.php?notcategorie">nc</a></button>
     <button><a href="index.php?isWatched=1">👁️</a>​</button>
     <button><a href="index.php?isWatched=0">🕐</a>​​</button>

@@ -16,51 +16,46 @@ class FilmController
         $this->genreRepository = new GenreRepository();
     }
 
-    public function index()
-    {
-        $genres = $this->genreRepository->findAll();
-        $title = "Ma Vidéothèque";
+    /**
+     * Gère l'affichage de la vidéothèque et les filtres 
+     */
+  public function index()
+{
+    // 1. Toujours récupérer les genres pour l'affichage en haut [cite: 32, 41]
+    $genres = $this->genreRepository->findAll();
+    $title = "Ma Vidéothèque";
 
-        if (isset($_GET['id']) && !empty($_GET['id'])) {
-            $films = $this->filmRepository->findByGenre($_GET['id']);
-        } else {
-            $films = $this->filmRepository->findAll();
-        }
+    // 2. Récupérer l'ID de l'URL proprement 
+    $genreId = $_GET['id'] ?? null;
 
-        require_once __DIR__ . '/../view/index.phtml';
+    // 3. LA GARE DE TRIAGE (Ordre de priorité)
+    if ($genreId) {
+        // PRIORITÉ 1 : Si un ID existe, on filtre par genre [cite: 34, 38, 44]
+        $films = $this->filmRepository->findByGenre((int)$genreId);
+
+    } elseif (isset($_GET['notcategorie'])) {
+        // FILTRE NC : On cherche les films sans genre (NULL)
+        $films = $this->filmRepository->findNotCategorized();
+
+    } elseif (isset($_GET['isWatched'])) {
+        // FILTRE STATUT : Vu ou À voir
+        $films = $this->filmRepository->findByStatus((int)$_GET['isWatched']);
+
+    } else {
+        // PAR DÉFAUT : On affiche tout si aucun filtre n'est actif [cite: 35, 43]
+        $films = $this->filmRepository->findAll();
     }
 
-    public function findBygenre()
-    {
-        $id = $this->genreRepository->findBygenre();
-
-        if (isset($_GET['id'])) {
-            $genres = $this->genreRepository->findByid($_GET['id']);
-        } else {
-            $genres = $this->genreRepository->findAll();
-        }
-            }
+    // 4. Envoyer à la vue [cite: 36]
+    require_once __DIR__ . '/../view/index.phtml';
+}
 
 
-        public function getiswatched() {
-            $films = $filmRepository->findAll();
-
-            if (isset($_GET['notcategorie'])) {
-                $films = $filmRepository->getIsWatched();
-            }
-
-            if (isset($_GET['isWatched'])) {
-                $films = $filmRepository->findBy(['isWatched' => $_GET['isWatched']]);
-            }
-        }
+}
 
 
 
 
-
-
-
-} 
 
 
 
