@@ -2,38 +2,37 @@
 
 namespace Cine\App\Repository;
 
+use Cine\App\Entity\Film;
 use PDO;
 
 class FilmRepository
 {
     public function findAll()
     {
-        $sql = " SELECT * FROM film ";
+        $sql = "SELECT * FROM film";
         $pdo = new PDO('mysql:dbname=cine;host=mysql;charset=utf8', 'user', 'pwd');
         $request = $pdo->prepare($sql);
         $request->execute();
-        return $request->fetchAll(PDO::FETCH_ASSOC);
+        $request->setFetchMode(PDO::FETCH_CLASS, Film::class);
+
+        return $request->fetchAll();
     }
 
+    public function findByGenre($genreId)
+    {
+        $sql = "SELECT * FROM film WHERE genre_id = :id";
 
-public function find($id)
-{
-    // On change "genre" par "film" et "name" par "*" (toutes les colonnes)
-    $sql = "SELECT * FROM film WHERE id = :id";
-    
-    $pdo = new PDO('mysql:dbname=cine;host=mysql;charset=utf8', 'user', 'pwd');
-    $request = $pdo->prepare($sql);
+        $pdo = new PDO('mysql:dbname=cine;host=mysql;charset=utf8', 'user', 'pwd');
+        $request = $pdo->prepare($sql);
+        $request->execute([
+            'id' => $genreId
+        ]);
+        $request->setFetchMode(PDO::FETCH_CLASS, Film::class);
 
-    $request->execute(['id' => $id]);
-
-    return $request->fetch(PDO::FETCH_ASSOC);
+        return $request->fetchAll();
+    }
 }
 
-
-
-
-
-}
 
 
 

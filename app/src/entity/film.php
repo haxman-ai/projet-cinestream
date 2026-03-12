@@ -1,7 +1,8 @@
 <?php
 
+namespace Cine\App\Entity;
 
-class film
+class Film
 {
 
  private $id;
@@ -13,7 +14,7 @@ class film
  private $overview;
  private $genre_id;
  private $description;
- private $iswatched;
+ private $isWatched;
 
 
  /**
@@ -197,21 +198,21 @@ class film
  }
 
  /**
-  * Get the value of iswatched
+  * Get the value of isWatched
   */ 
- public function getIswatched()
+ public function getIsWatched()
  {
-  return $this->iswatched;
+  return $this->isWatched;
  }
 
  /**
-  * Set the value of iswatched
+  * Set the value of isWatched
   *
   * @return  self
   */ 
- public function setIswatched($iswatched)
+ public function setIsWatched($isWatched)
  {
-  $this->iswatched = $iswatched;
+  $this->isWatched = $isWatched;
 
   return $this;
  }

@@ -7,38 +7,43 @@
     <title>CineStream+ - Ma Vidéothèque</title>
 </head>
 <body>
-
 <?php require 'header.phtml'; ?>
+<nav class="filters">
+    <a href="index.php" class="tag <?= !isset($_GET['id']) ? 'active' : '' ?>">
+        Tous les films
+    </a>
 
-<main class="container">
-    <section class="categories">
-        <button class="tag <?php echo empty($_GET['id']) ? 'active' : ''; ?>">
-    Tous les films
-    </button>
+    <?php foreach ($genres as $genre) : ?>
+      <a href="index.php?id=<?= $genre->getId() ?>" 
+           class="tag <?= (isset($_GET['id']) && $_GET['id'] == $genre->getId()) ? 'active' : '' ?>">
+            <?= htmlspecialchars($genre->getName()) ?>
+        </a>
+    <?php endforeach; ?>
     
-    
-    </section>
-
+    <button><a href="index.php?notcategorie">nc</a></button>
+    <button><a href="index.php?isWatched=1">👁️</a>​</button>
+    <button><a href="index.php?isWatched=0">🕐</a>​​</button>
+</nav>
     <?php if (empty($films)): ?>
         <p class="empty-msg">Votre vidéothèque est vide. Commencez votre collection !</p>
     <?php else: ?>
         <div class="movie-grid">
             <?php foreach ($films as $film): ?>
                 <div class="card">
-                    <a href="index.php?action=show&id=<?= $film['id'] ?>">
-                        <img src="https://image.tmdb.org/t/p/w500<?= $film['poster_path'] ?>" 
-                             alt="<?= htmlspecialchars($film['title']) ?>">
+                    <a href="index.php?action=show&id=<?= $film-> getId() ?>">
+                        <img src="https://image.tmdb.org/t/p/w500<?= $film->getPoster_path()?>" 
+                             alt="<?= htmlspecialchars($film->getTitle()) ?>">
                     </a>
-                    
+                     
                     <div class="card-body">
-                        <h3><?= htmlspecialchars($film['title']) ?></h3>
-                        <p><?= $film['release_date'] ?> • <?= $film['isWatched'] ? '✅ Vu' : '🕒 À voir' ?></p>
+                        <h3><?= htmlspecialchars($film->getTitle()) ?></h3>
+                        <p><?= ($film->getRelease_date()) ?> • <?= ($film->getIsWatched()) ? ' Vu' : ' À voir' ?></p>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-</main>
+
 
 </body>
 </html>

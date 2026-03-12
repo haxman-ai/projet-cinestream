@@ -13,10 +13,7 @@ if (isset($_GET['action'])) {
 }
 
 
-$repository = new FilmRepository(); 
-
-$filmController = new FilmController($repository);
-
+$filmController = new FilmController();
 
 
 if ($route === 'index') {

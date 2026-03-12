@@ -6,10 +6,10 @@ use PDO;
 
 class Repository
 {
-    protected $pdo;
+protected $pdo;
 
-    public function __construct()
-    {
-        $this->pdo = new PDO('mysql:host=mysql; dbname=librairy', 'user', 'pass');
-    }
+public function __construct()
+{
+    $this->pdo = new PDO('mysql:host=mysql; dbname=librairy', 'user', 'pass');
+}
 }
