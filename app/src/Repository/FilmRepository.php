@@ -36,7 +36,7 @@ class FilmRepository
     }
 
 
-    public function findById(int $id)
+    public function find(int $id)
     {
         $sql = "SELECT * FROM film WHERE id = :id";
         
@@ -50,12 +50,10 @@ class FilmRepository
 
 
 
-/**
- * Cherche les films qui n'ont pas de genre associé (NULL)
- */
+
 public function findNotCategorized(): array
 {
-    // On sélectionne les films où la colonne genre_id est vide 
+
     $sql = "SELECT * FROM film WHERE genre_id IS NULL"; 
     
     $request = $this->getPDO()->prepare($sql);
@@ -74,9 +72,6 @@ public function findByStatus(int $status): array
 
     return $request->fetchAll();
 }
-
-
-
 
 
 

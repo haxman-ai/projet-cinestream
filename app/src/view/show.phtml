@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title><?= htmlspecialchars($film['title']) ?> - CineStream+</title>
+    <title><?= htmlspecialchars($film->gettitle()) ?> - CineStream+</title>
 </head>
 <body>
 <main class="container">
@@ -19,24 +19,24 @@
         <div class="details-layout">
             
             <div class="details-poster">
-                <img src="https://image.tmdb.org/t/p/w500<?= $film['poster_path'] ?>" 
-                     alt="<?= htmlspecialchars($film['title']) ?>">
+                <img src="https://image.tmdb.org/t/p/w500<?= $film->getPoster_path() ?>" 
+                     alt="<?= htmlspecialchars($film->gettitle()) ?>">
             </div>
 
             <div class="details-info">
-                <h1><?= htmlspecialchars($film['title']) ?></h1>
+                <h1><?= htmlspecialchars($film->gettitle()) ?></h1>
                 
                 <div class="meta">
-                    <span class="date">📅 <?= $film['release_date'] ?></span>
-                    <span class="rating">⭐ <?= $film['vote_average'] ?>/10</span>
-                    <span class="status-badge <?= $film['isWatched'] ? 'watched' : 'to-watch' ?>">
-                        <?= $film['isWatched'] ? '✅ Déjà vu' : '🕒 À regarder' ?>
+                    <span class="date">📅 <?= $film->getrelease_date() ?></span>
+                    <span class="rating">⭐ <?= $film->getvote_average() ?>/10</span>
+                    <span class="status-badge <?= $film->getIsWatched() ? 'watched' : 'to-watch' ?>">
+                        <?= $film->getIsWatched() ? '✅ Déjà vu' : '🕒 À regarder' ?>
                     </span>
                 </div>
 
                 <h3>Synopsis</h3>
                 <p class="overview">
-                    <?= !empty($film['overview']) ? htmlspecialchars($film['overview']) : "Aucun résumé disponible pour ce film." ?>
+                    <?= !empty($film->getoverview()) ? htmlspecialchars($film->getoverview()) : "Aucun résumé disponible pour ce film." ?>
                 </p>
 
                 <div class="actions">

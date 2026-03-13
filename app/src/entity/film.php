@@ -15,7 +15,7 @@ class Film
  private $genre_id;
  private $description;
  private $isWatched;
-
+ private $vote_average;
 
  /**
   * Get the value of id
@@ -213,6 +213,26 @@ class Film
  public function setIsWatched($isWatched)
  {
   $this->isWatched = $isWatched;
+
+  return $this;
+ }
+
+ /**
+  * Get the value of vote_average
+  */ 
+ public function getVote_average()
+ {
+  return $this->vote_average;
+ }
+
+ /**
+  * Set the value of vote_average
+  *
+  * @return  self
+  */ 
+ public function setVote_average($vote_average)
+ {
+  $this->vote_average = $vote_average;
 
   return $this;
  }
