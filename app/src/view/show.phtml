@@ -41,12 +41,29 @@
 
                 <div class="actions">
                     <button class="btn-edit">Modifier la fiche</button>
+                <a href="index.php?action=delete&id=<?= $film->getId() ?>" 
+                 class="btn-delete" 
+                 onclick="return confirmerSuppression(event, '<?= addslashes($film->getTitle()) ?>')">
+                 ❌ Supprimer le film
+                </a>
                 </div>
             </div>
 
         </div>
     </section>
-</main>
+</main><script>
+        function confirmerSuppression(event, titre) {
+            const confirmation = confirm("Êtes-vous sûr de vouloir supprimer le film : " + titre + " ?");
+            if (!confirmation) {
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
+
 
 </body>
 </html>

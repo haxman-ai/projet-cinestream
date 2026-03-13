@@ -73,6 +73,16 @@ public function findByStatus(int $status): array
     return $request->fetchAll();
 }
 
+public function delete (int $id)
+{
+   $sql = "delete from film where id =:id";
+   $query = $this->getPDO()->prepare($sql);
+   return  $query->execute(['id'=>$id]);
+
+
+
+
+}
 
 
 }

@@ -61,8 +61,18 @@ public function show()
         header('Location: index.php');
     }
 }
+ public function delete()
+{
 
+$id = $_GET['id'] ?? null;
 
+if ($id) {
+    $this->filmRepository->delete($id);
+}
+
+header('location:index.php');
+
+}
 
 
 }
