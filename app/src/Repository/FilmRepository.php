@@ -76,8 +76,56 @@ public function findByStatus(int $status): array
 public function delete (int $id)
 {
    $sql = "delete from film where id =:id";
-   $query = $this->getPDO()->prepare($sql);
-   return  $query->execute(['id'=>$id]);
+   $request = $this->getPDO()->prepare($sql);
+   return  $request->execute(['id'=>$id]);
+
+
+}
+public function update(
+    int $id,
+    string $title,
+    string $posterPath,
+    string $releaseDate,
+    int $runtime,
+    string $overview,
+    ?int $genreId,
+    string $description,
+    int $isWatched
+)
+{
+    $sql = "UPDATE film 
+            SET title = :title,
+                poster_path = :poster_path,
+                release_date = :release_date,
+                runtime = :runtime,
+                overview = :overview,
+                genre_id = :genre_id,
+                description = :description,
+                isWatched = :isWatched
+            WHERE id = :id";
+
+    $request = $this->getPDO()->prepare($sql);
+
+    return $request->execute([
+        'id' => $id,
+        'title' => $title,
+        'poster_path' => $posterPath,
+        'release_date' => $releaseDate,
+        'runtime' => $runtime,
+        'overview' => $overview,
+        'genre_id' => $genreId,
+        'description' => $description,
+        'isWatched' => $isWatched,
+    ]);
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -85,7 +133,18 @@ public function delete (int $id)
 }
 
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
    

@@ -1,6 +1,3 @@
-<?php
-?>
-
 <?php require __DIR__ . '/header.phtml'; ?>
 
 <!DOCTYPE html>
@@ -8,62 +5,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title><?= htmlspecialchars($film->gettitle()) ?> - CineStream+</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <title><?= htmlspecialchars($film->getTitle()) ?> - CineStream+</title>
 </head>
 <body>
 <main class="container">
     <a href="index.php" class="btn-back">⬅ Retour à la vidéothèque</a>
+
+    <?php if (isset($_GET['success']) && $_GET['success'] === 'updated') : ?>
+        <p class="success-message">Le film a bien été modifié.</p>
+    <?php endif; ?>
 
     <section class="movie-details">
         <div class="details-layout">
             
             <div class="details-poster">
                 <img src="https://image.tmdb.org/t/p/w500<?= $film->getPoster_path() ?>" 
-                     alt="<?= htmlspecialchars($film->gettitle()) ?>">
+                     alt="<?= htmlspecialchars($film->getTitle()) ?>">
             </div>
 
             <div class="details-info">
-                <h1><?= htmlspecialchars($film->gettitle()) ?></h1>
+                <h1><?= htmlspecialchars($film->getTitle()) ?></h1>
                 
                 <div class="meta">
-                    <span class="date">📅 <?= $film->getrelease_date() ?></span>
-                    <span class="rating">⭐ <?= $film->getvote_average() ?>/10</span>
+                    <span class="date">📅 <?= htmlspecialchars($film->getRelease_date()) ?></span>
+                    <span class="rating">⭐ <?= htmlspecialchars($film->getVote_average()) ?>/10</span>
                     <span class="status-badge <?= $film->getIsWatched() ? 'watched' : 'to-watch' ?>">
                         <?= $film->getIsWatched() ? '✅ Déjà vu' : '🕒 À regarder' ?>
                     </span>
                 </div>
 
                 <h3>Synopsis</h3>
-                <p class="overview">
-                    <?= !empty($film->getoverview()) ? htmlspecialchars($film->getoverview()) : "Aucun résumé disponible pour ce film." ?>
+                  <p class="overview">
+                    <?= !empty($film->getOverview()) ? htmlspecialchars($film->getOverview()) : "Aucun résumé disponible pour ce film." ?>
                 </p>
 
                 <div class="actions">
-                    <button class="btn-edit">Modifier la fiche</button>
-                <a href="index.php?action=delete&id=<?= $film->getId() ?>" 
-                 class="btn-delete" 
-                 onclick="return confirmerSuppression(event, '<?= addslashes($film->getTitle()) ?>')">
-                 ❌ Supprimer le film
-                </a>
+                    <a href="index.php?route=update&id=<?= $film->getId() ?>" class="btn-edit">
+                      ✏️ Modifier la fiche
+                     </a>
+                    <a href="index.php?route=delete&id=<?= $film->getId() ?>"
+                       class="btn-delete"
+                       onclick="return confirmerSuppression(event, '<?= addslashes($film->getTitle()) ?>')">
+                        ❌ Supprimer le film
+                    </a>
                 </div>
             </div>
-
         </div>
     </section>
-</main><script>
-        function confirmerSuppression(event, titre) {
-            const confirmation = confirm("Êtes-vous sûr de vouloir supprimer le film : " + titre + " ?");
-            if (!confirmation) {
-                event.preventDefault();
-                return false;
-            }
-            return true;
-        }
-    </script>
-</body>
-</html>
+</main>
 
-
+<script>
+function confirmerSuppression(event, titre) {
+    const confirmation = confirm("Êtes-vous sûr de vouloir supprimer le film : " + titre + " ?");
+    if (!confirmation) {
+        event.preventDefault();
+        return false;
+    }
+    return true;
+}
+</script>
 </body>
 </html>

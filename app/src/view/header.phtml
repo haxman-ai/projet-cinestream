@@ -1,14 +1,16 @@
 <header class="main-header">
+<link rel="stylesheet" href="css/style.css">
+
     <div class="">
         <h1 class="">🎬CinéStream +</h1>
         <p class="">Votre cinéma, partout, à tout moment.</p>
     </div>
     
     <nav class="main-nav">
-        <a href="index.php?action=index" class="<?= ($route === 'index') ? '' : '' ?>">
+        <a href="index.php?route=index" class="<?= ($route === 'index') ? '' : '' ?>">
            ☰  VIDÉOTHÈQUE
         </a>
-        <a href="index.php?action=search" class="<?= ($route === 'show')? '' : '' ?>">
+        <a href="index.php?route=search" class="<?= ($route === 'show')? '' : '' ?>">
             🔍 RECHERCHE
         </a>
     </nav>

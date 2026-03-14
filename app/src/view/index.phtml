@@ -9,7 +9,7 @@
 <body>
 <?php require 'header.phtml'; ?>
 <nav class="filters">
-    <a href="index.php" class="tag <?= !isset($_GET['id']) ? 'active' : '' ?>">
+    <a href="index.php?route=index" class="tag <?= !isset($_GET['id']) ? 'active' : '' ?>">
         Tous les films
     </a>
 <?php foreach ($genres as $genre) : ?>
@@ -18,9 +18,9 @@
         <?= htmlspecialchars($genre->getName()) ?>
     </a>
 <?php endforeach; ?>
-    <button><a href="index.php?notcategorie">nc</a></button>
-    <button><a href="index.php?isWatched=1">👁️</a>​</button>
-    <button><a href="index.php?isWatched=0">🕐</a>​​</button>
+   <a href="index.php?route=index&notcategorie=1" class="tag">nc</a>
+   <a href="index.php?route=index&isWatched=1" class="tag">👁️</a>
+   <a href="index.php?route=index&isWatched=0" class="tag">🕐</a>
 </nav>
     <?php if (empty($films)): ?>
         <p class="empty-msg">Votre vidéothèque est vide. Commencez votre collection !</p>
@@ -28,7 +28,7 @@
         <div class="movie-grid">
             <?php foreach ($films as $film): ?>
                 <div class="card">
-                    <a href="index.php?action=show&id=<?= $film-> getId() ?>">
+                    <a href="index.php?route=show&id=<?= $film-> getId() ?>">
                         <img src="https://image.tmdb.org/t/p/w500<?= $film->getPoster_path()?>" 
                              alt="<?= htmlspecialchars($film->getTitle()) ?>">
                     </a>
