@@ -17,6 +17,7 @@ if ($route === 'index') {
     $filmController->update();
 } elseif ($route === 'delete') {
     $filmController->delete();
-} else {
+} elseif ($route === 'save') {
+    $filmController->save();
     echo "Désolé, cette page n'existe pas !";
 }

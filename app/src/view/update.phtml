@@ -1,33 +1,35 @@
-<?php require __DIR__ . '/header.phtml'; ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier <?= htmlspecialchars($film->getTitle()) ?> - CineStream+</title>
+    <title>Modifier <?= htmlspecialchars($film->getTitle() ?? 'Film') ?> - CineStream+</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
+<?php require __DIR__ . '/header.phtml'; ?>
+
 <main class="container">
-    <section class="movie-details">
+    <section class="movie-details update-page">
         <div class="details-layout">
             <div class="details-poster">
-                <img src="https://image.tmdb.org/t/p/w500<?= $film->getPoster_path() ?>"
-                     alt="<?= htmlspecialchars($film->getTitle()) ?>">
+                <img src="https://image.tmdb.org/t/p/w500<?= htmlspecialchars($film->getPoster_path() ?? '') ?>"
+                     alt="<?= htmlspecialchars($film->getTitle() ?? 'Film') ?>">
             </div>
 
             <div class="details-info">
-                <h1><?= htmlspecialchars($film->getTitle()) ?></h1>
+                <h1><?= htmlspecialchars($film->getTitle() ?? 'Film sans titre') ?></h1>
 
                 <div class="meta">
-                    <span>📅 <?= htmlspecialchars((string) ($film->getRelease_date() ?? 'n/c')) ?></span>
-                    <span>⏱ <?= htmlspecialchars((string) ($film->getRuntime() ?? 'n/c')) ?> min</span>
+                    <span>📅 <?= htmlspecialchars((string)($film->getRelease_date() ?? 'n/c')) ?></span>
+                    <span>⏱ <?= htmlspecialchars((string)($film->getRuntime() ?? 'n/c')) ?> min</span>
                 </div>
 
                 <p class="overview">
-                    <?= !empty($film->getOverview()) ? htmlspecialchars($film->getOverview()) : 'Aucun synopsis disponible.' ?>
+                    <?= !empty($film->getOverview())
+                        ? htmlspecialchars($film->getOverview())
+                        : 'Aucun synopsis disponible.' ?>
                 </p>
 
                 <form action="index.php?route=update&id=<?= $film->getId() ?>" method="POST" class="update-form">
@@ -47,6 +49,7 @@
                     <textarea id="description" name="description"><?= htmlspecialchars($film->getDescription() ?? '') ?></textarea>
 
                     <p>Vu / À voir</p>
+
                     <label>
                         <input type="radio" name="isWatched" value="1" <?= $film->getIsWatched() == 1 ? 'checked' : '' ?>>
                         Vu
@@ -57,14 +60,15 @@
                         À voir
                     </label>
 
-                    <div class="actions">
-                        <button type="submit" class="btn-edit">retour a la page précédente</button>
+                    <div class="form-actions">
+                        <a href="index.php?route=show&id=<?= $film->getId() ?>" class="btn-back">
+                            Retour à la fiche
+                        </a>
+                        <button type="submit" class="btn-save">
+                            Enregistrer les modifications
+                        </button>
                     </div>
                 </form>
-
-                <a href="index.php?route=show&id=<?= $film->getId() ?>" class="btn-back">
-                    Retour à la page précédente
-                </a>
             </div>
         </div>
     </section>

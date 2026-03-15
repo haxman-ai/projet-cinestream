@@ -119,11 +119,23 @@ public function update(
     ]);
 }
 
+public function save(int $id, ?int $genreId, string $description, int $isWatched)
+{
+    $sql = "UPDATE film
+            SET genre_id = :genre_id,
+                description = :description,
+                isWatched = :isWatched
+            WHERE id = :id";
 
+    $request = $this->getPDO()->prepare($sql);
 
-
-
-
+    return $request->execute([
+        'id' => $id,
+        'genre_id' => $genreId,
+        'description' => $description,
+        'isWatched' => $isWatched,
+    ]);
+}
 
 
 
