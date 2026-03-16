@@ -65,7 +65,7 @@ class FilmController
     }
 
 
-public function update()
+ public function update()
 {
     $id = (int) ($_GET['id'] ?? 0);
 
@@ -81,38 +81,21 @@ public function update()
         exit;
     }
 
+    if (!empty($_POST)) {
+        $genreId = (int) ($_POST['genre_id'] ?? 0);
+        $description = $_POST['description'] ?? '';
+        $isWatched = (int) ($_POST['isWatched'] ?? 0);
+
+        $this->filmRepository->update($id, $genreId, $description, $isWatched);
+
+        header('Location: index.php?route=show&id=' . $id);
+        exit;
+    }
+
     $genres = $this->genreRepository->findAll();
 
     require __DIR__ . '/../view/update.phtml';
 }
-
-public function save()
-{
-    if (
-        !empty($_POST['id']) &&
-        isset($_POST['genre_id']) &&
-        isset($_POST['description']) &&
-        isset($_POST['isWatched'])
-    ) {
-        $id = (int) $_POST['id'];
-        $genreId = $_POST['genre_id'] !== '' ? (int) $_POST['genre_id'] : null;
-        $description = trim($_POST['description']);
-        $isWatched = (int) $_POST['isWatched'];
-
-        $this->filmRepository->save(
-            $id,
-            $genreId,
-            $description,
-            $isWatched
-        );
-
-        header('Location: index.php?route=show&id=' . $id . '&success=updated');
-        exit;
-    }
-
-    echo "Données du formulaire manquantes.";
-}
-
 
 
 }

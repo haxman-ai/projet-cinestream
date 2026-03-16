@@ -81,45 +81,26 @@ public function delete (int $id)
 
 
 }
-public function update(
-    int $id,
-    string $title,
-    string $posterPath,
-    string $releaseDate,
-    int $runtime,
-    string $overview,
-    ?int $genreId,
-    string $description,
-    int $isWatched
-)
-{
-    $sql = "UPDATE film 
-            SET title = :title,
-                poster_path = :poster_path,
-                release_date = :release_date,
-                runtime = :runtime,
-                overview = :overview,
-                genre_id = :genre_id,
-                description = :description,
-                isWatched = :isWatched
-            WHERE id = :id";
 
-    $request = $this->getPDO()->prepare($sql);
 
-    return $request->execute([
-        'id' => $id,
-        'title' => $title,
-        'poster_path' => $posterPath,
-        'release_date' => $releaseDate,
-        'runtime' => $runtime,
-        'overview' => $overview,
-        'genre_id' => $genreId,
-        'description' => $description,
-        'isWatched' => $isWatched,
-    ]);
-}
+    public function update($id, $genreId, $description, $isWatched)
+    {
+        $sql = "UPDATE film
+                SET genre_id = :genre_id,
+                    description = :description,
+                    isWatched = :isWatched
+                WHERE id = :id";
 
-public function save(int $id, ?int $genreId, string $description, int $isWatched)
+      $request = $this->getPDO()->prepare($sql);
+
+        $request->execute([
+            'id' => $id,
+            'genre_id' => $genreId,
+            'description' => $description,
+            'isWatched' => $isWatched
+        ]);
+    }
+    public function save( int $id,?int $genreId, string $description, int $isWatched)
 {
     $sql = "UPDATE film
             SET genre_id = :genre_id,
@@ -130,14 +111,12 @@ public function save(int $id, ?int $genreId, string $description, int $isWatched
     $request = $this->getPDO()->prepare($sql);
 
     return $request->execute([
-        'id' => $id,
         'genre_id' => $genreId,
         'description' => $description,
         'isWatched' => $isWatched,
+        'id' => $id
     ]);
 }
-
-
 
 
 
