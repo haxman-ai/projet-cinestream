@@ -4,6 +4,7 @@ namespace Cine\App\Controller;
 
 use Cine\App\Repository\FilmRepository;
 use Cine\App\Repository\GenreRepository;
+use Cine\App\Service\Tmdb\Tmdb;
 
 class FilmController
 {
@@ -97,5 +98,70 @@ class FilmController
     require __DIR__ . '/../view/update.phtml';
 }
 
+
+
+public function search()
+{ 
+    $query = ($_GET['query'] ??'');
+    $results = [];
+
+    if($query !=='') {
+        $tmdb = new Tmdb();
+        $results = $tmdb->getFilmbyTmdbsearch($query);
+
+    }
+
+     require __dir__ . ' /../view/search.phtml';
+
+}
+
+public function showTmdb()
+{
+   $tmdbid = $_GET['tmdb_id'] ?? null;
+      
+       if (!$tmdbid) {
+        echo "film TMDB introuvable";
+
+         return;
+       }
+    
+       $tmdb = new Tmdb();
+       $film = $tmdb->getFilmByTmdbId((int) $tmdbid);
+
+       require __DIR__ . '/../view/showTmdb .phtml';
+}
+
+
+
+
+public function add ()
+
+{
+    $tmdbid = $_GET['tmdb_id'] ?? null;
+
+    if (!$tmdbid) {
+        echo "identifiant TMDB manquant";
+        return;
+    }
+     
+    if ($this->filmRepository->findbyTmdbid ((int) $tmdbid)) {
+        echo "ce film est déja dans la vidéothéque";
+        return;
+    }
+
+    $tmdb = new Tmdb();
+    $film = $tmdb->getFilmByTmdbId((int) $tmdbid);
+
+    $newId = $this->filmRepository->insertFromTmdb($film);
+
+    header ('location:index.php?route=update&id=' . $newId);
+  
+
+    
+
+
+
+
+}
 
 }

@@ -1,0 +1,21 @@
+
+<form method="GET" action="index.php">
+<input type="hidden" name="route" value="search">
+<input type="text" name="query" value="<?= htmlspecialchars($query ?? '') ?>" placeholder="Recherche
+r un film">
+<button type="submit">Rechercher</button>
+</form>
+<?php if (!empty($query) && empty($results)): ?>
+<p>Aucun résultat trouvé.</p>
+<?php endif; ?>
+<div class="movie-grid">
+<?php foreach ($results as $result): ?>
+<a href="index.php?route=showTmdb&tmdb_id=<?= $result['id'] ?>" class="movie-card">
+<img src="<?= Tmdb::IMG_URL . $result['poster_path'] ?>" alt="<?= htmlspecialchars($result['
+title']) ?>">
+<h3><?= htmlspecialchars($result['title']) ?></h3>
+<p><?= !empty($result['release_date']) ? substr($result['release_date'], 0, 4) : 'n/c' ?></p
+>
+</a>
+<?php endforeach; ?>
+</div>

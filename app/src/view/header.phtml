@@ -1,4 +1,5 @@
 <header class="main-header">
+ <link rel="stylesheet" href="css/style.css">
     <div>
         <h1 class="">🎬CinéStream +</h1>
         <p class="">Votre cinéma, partout, à tout moment.</p>
@@ -13,4 +14,19 @@
         </a>
     </nav>
 </header>
-    
+<form action="index.php" method="GET" class="search-form">
+
+    <input type="hidden" name="route" value="search">
+
+    <input
+        type="text"
+        name="query"
+        class="search-input"
+        placeholder="Rechercher un film..."
+    >
+
+    <button type="submit" class="search-button">
+        Rechercher
+    </button>
+
+</form>

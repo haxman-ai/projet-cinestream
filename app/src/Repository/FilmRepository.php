@@ -119,6 +119,40 @@ public function delete (int $id)
 }
 
 
+public function findbyTmdbid(int $tmdbid)
+{
+
+    $sql = "select* FROM film WHERE tmdb_id = :tdb_id";
+    $request = $this->pdo->prepare($sql);
+    $request->execute( ['tmdb_id'=> $tmdbid]);
+    return $request->fetch();
+
+}
+
+public function insertFromTmdb(array $film): int
+{
+    $sql = "INSERT INTO film
+            (tmdb_id, title, poster_path, release_date, runtime, overview, genre_id, description, isWatched)
+            VALUES
+            (:tmdb_id, :title, :poster_path, :release_date, :runtime, :overview, :genre_id, :description, :isWatched)";
+
+    $request = $this->getPDO()->prepare($sql);
+
+    $request->execute([
+        'tmdb_id' => $film['id'],
+        'title' => $film['title'],
+        'poster_path' => $film['poster_path'],
+        'release_date' => !empty($film['release_date']) ? substr($film['release_date'], 0, 4) : null,
+        'runtime' => $film['runtime'] ?? null,
+        'overview' => $film['overview'] ?? null,
+        'genre_id' => null,
+        'description' => null,
+        'isWatched' => 0
+    ]);
+
+    return (int) $this->getPDO()->lastInsertId();
+}
+
 
 
 }

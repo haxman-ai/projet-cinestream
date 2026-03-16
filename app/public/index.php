@@ -19,5 +19,13 @@ if ($route === 'index') {
     $filmController->delete();
 } elseif ($route === 'save') {
     $filmController->save();
-    echo "Désolé, cette page n'existe pas !";
+}elseif ($route === 'search') { 
+    $filmController->search();
+}elseif ($route === 'showTmdb') {
+     $filmController->showTmdb();
+}elseif ($route === 'add') {
+    $filmController->add();
+}else {
+    echo 'page introuvable';
 }
+    
