@@ -10,7 +10,7 @@
 
 <?php require __DIR__ . '/header.phtml'; ?>
 
-<main class="container">
+<main class="container show-page">
     <a href="index.php" class="btn-back">⬅ Retour à la vidéothèque</a>
 
     <?php if (isset($_GET['success']) && $_GET['success'] === 'updated') : ?>
@@ -78,5 +78,6 @@ function confirmerSuppression(event, titre) {
     return true;
 }
 </script>
+
 </body>
 </html>
