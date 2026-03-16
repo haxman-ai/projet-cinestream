@@ -99,38 +99,38 @@ class FilmController
 }
 
 
-
-public function search()
-{ 
-    $query = ($_GET['query'] ??'');
+public function search(): void
+{
+    $query = trim($_GET['query'] ?? '');
     $results = [];
 
-    if($query !=='') {
-        $tmdb = new Tmdb();
-        $results = $tmdb->getFilmbyTmdbsearch($query);
-
+    if ($query !== '') {
+        $tmdb = new \Cine\App\Service\Tmdb\Tmdb();
+        $data = $tmdb->getFilmByTmdbSearch($query);
+        $results = $data['results'] ?? [];
     }
 
-     require __dir__ . ' /../view/search.phtml';
-
+    require __DIR__ . '/../view/search.phtml';
 }
-
-public function showTmdb()
+public function showTmdb(): void
 {
-   $tmdbid = $_GET['tmdb_id'] ?? null;
-      
-       if (!$tmdbid) {
-        echo "film TMDB introuvable";
+    $tmdbId = (int)($_GET['tmdb_id'] ?? 0);
 
-         return;
-       }
-    
-       $tmdb = new Tmdb();
-       $film = $tmdb->getFilmByTmdbId((int) $tmdbid);
+    if ($tmdbId <= 0) {
+        echo "Film introuvable";
+        return;
+    }
 
-       require __DIR__ . '/../view/showTmdb .phtml';
+    $tmdb = new \Cine\App\Service\Tmdb\Tmdb();
+    $film = $tmdb->getFilmByTmdbId($tmdbId);
+
+    if (empty($film)) {
+        echo "Film introuvable";
+        return;
+    }
+
+    require __DIR__ . '/../view/showTmdb.phtml';
 }
-
 
 
 

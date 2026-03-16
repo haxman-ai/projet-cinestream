@@ -1,17 +1,67 @@
-<?php ?>
+<?php
 
-<a href="javascript:history.back()"><-retour</a>
+use Cine\App\Service\Tmdb\Tmdb;
 
-<h1><?= htmlspecialchars($film['title']) ?></h1>
+require __DIR__ . '/header.phtml';
 
-<img src="<?= Tmdb::IMG_URL . $film['poster_path>'] ?>" alt="<?= htmlspecialchars($film['title']) ?>">
+$genres = $film['genres'] ?? [];
+$genreNames = [];
 
-<p><?= !empty($film['release_date'] ) ? substr($film['release_date'],0,4) : 'n/c' ?>
- <?= htmlspecialchars((string) ($film['runtime']?? 'n/c')) ?> min </p>
+foreach ($genres as $genre) {
+    if (isset($genre['name'])) {
+        $genreNames[] = $genre['name'];
+    }
+}
 
- <p>note : <?= htmlspecialchars((string) ($film['vote_average'] ?? 'n/c')) ?>/10 </p>
+$year = !empty($film['release_date']) ? substr($film['release_date'], 0, 4) : 'n/c';
+$runtime = !empty($film['runtime']) ? $film['runtime'] . ' min' : 'n/c';
+$voteAverage = isset($film['vote_average']) ? number_format((float)$film['vote_average'], 1) : 'n/c';
+$voteCount = isset($film['vote_count']) ? (int)$film['vote_count'] : 0;
+?>
 
- <p><?=  ?></p>
+<main class="container">
+    <section class="tmdb-details">
 
- 
+        <div class="tmdb-actions">
+            <a href="javascript:history.back()" class="back-button">← Retour</a>
 
+            <a href="index.php?route=add&tmdb_id=<?= (int)$film['id'] ?>" class="add-button" title="Ajouter à ma vidéothèque">
+                ➕
+            </a>
+        </div>
+
+        <div class="tmdb-layout">
+            <div class="tmdb-poster">
+                <?php if (!empty($film['poster_path'])): ?>
+                    <img
+                        src="<?= Tmdb::IMG_URL . $film['poster_path'] ?>"
+                        alt="<?= htmlspecialchars($film['title'] ?? 'Film') ?>"
+                    >
+                <?php else: ?>
+                    <div class="no-poster large">Affiche indisponible</div>
+                <?php endif; ?>
+            </div>
+
+            <div class="tmdb-info">
+                <h1><?= htmlspecialchars($film['title'] ?? 'Titre inconnu') ?></h1>
+
+                <div class="tmdb-meta">
+                    <span>📅 <?= htmlspecialchars($year) ?></span>
+                    <span>⏱ <?= htmlspecialchars($runtime) ?></span>
+                    <span>🎭 <?= htmlspecialchars(!empty($genreNames) ? implode(', ', $genreNames) : 'n/c') ?></span>
+                </div>
+
+                <div class="tmdb-rating">
+                    ⭐ <?= htmlspecialchars((string)$voteAverage) ?>/10
+                    <small>(<?= $voteCount ?> votes)</small>
+                </div>
+
+                <div class="tmdb-overview">
+                    <h2>Synopsis</h2>
+                    <p><?= htmlspecialchars($film['overview'] ?? 'Synopsis indisponible.') ?></p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>

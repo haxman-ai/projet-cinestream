@@ -19,13 +19,12 @@ if ($route === 'index') {
     $filmController->delete();
 } elseif ($route === 'save') {
     $filmController->save();
-}elseif ($route === 'search') { 
+} elseif ($route === 'search') { 
     $filmController->search();
-}elseif ($route === 'showTmdb') {
-     $filmController->showTmdb();
-}elseif ($route === 'add') {
+} elseif ($route === 'showTmdb') {
+    $filmController->showTmdb();
+} elseif ($route === 'add') {
     $filmController->add();
-}else {
+} else {
     echo 'page introuvable';
 }
-    
