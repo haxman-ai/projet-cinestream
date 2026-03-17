@@ -36,18 +36,19 @@ class FilmRepository
     }
 
 
-    public function find(int $id)
-    {
-        $sql = "SELECT * FROM film WHERE id = :id";
-        
-        $request = $this->getPDO()->prepare($sql);
-        $request->execute(['id' => $id]);
-        $request->setFetchMode(PDO::FETCH_CLASS, Film::class);
+ public function find(int $id)
+{
+    $sql = "SELECT film.*, genre.name AS genre_name
+            FROM film
+            LEFT JOIN genre ON film.genre_id = genre.id
+            WHERE film.id = :id";
 
-        return $request->fetch(); 
-    }
+    $request = $this->getPDO()->prepare($sql);
+    $request->execute(['id' => $id]);
+    $request->setFetchMode(PDO::FETCH_CLASS, Film::class);
 
-
+    return $request->fetch();
+}
 
 
 

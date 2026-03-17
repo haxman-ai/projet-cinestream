@@ -35,7 +35,7 @@
                     </span>
 
                     <span class="rating">
-                    <span>🎭 <?= htmlspecialchars(!empty($genreNames) ? implode(', ', $genreNames) : 'n/c') ?></span>
+                     <span>🎭 <?= htmlspecialchars($film->getGenreName() ?? 'Non catégorisé') ?></span>
                      <span>⏱ <?= htmlspecialchars((string)($film->getRuntime() ?? 'n/c')) ?> min</span>
                     </span>
 
@@ -53,13 +53,9 @@
 
                 <div class="actions">
                     <a href="index.php?route=update&id=<?= $film->getId() ?>">✏️</a>
-                    
-                   
-
                     <a href="index.php?route=delete&id=<?= $film->getId() ?>"
-                
-                       onclick="return confirmerSuppression(event, '<?= addslashes($film->getTitle() ?? 'ce film') ?>')">
-                        ❌ 
+                      onclick="return confirmerSuppression(event, '<?= addslashes($film->getTitle() ?? 'ce film') ?>')">
+                      ❌ 
                     </a>
                 </div>
             </div>

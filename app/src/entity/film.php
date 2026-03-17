@@ -16,6 +16,7 @@ class Film
  private $description;
  private $isWatched;
  private $vote_average;
+ private $genre_name;
 
  /**
   * Get the value of id
@@ -236,4 +237,19 @@ class Film
 
   return $this;
  }
+
+ /**
+  * Get the value of genre_name
+  */ 
+public function getGenreName()
+{
+  return $this->genre_name;
+}
+
+public function setGenreName($genre_name)
+{
+  $this->genre_name = $genre_name;
+
+  return $this;
+}
 }

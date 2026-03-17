@@ -29,32 +29,39 @@
 <?php if (empty($films)): ?>
     <p class="empty-msg">Votre vidéothèque est vide. Commencez votre collection !</p>
 <?php else: ?>
-<div class="movie-grid">
-    <?php foreach ($films as $film): ?>
-        <div class="movie-card">
-            <a href="index.php?route=show&id=<?= $film->getId() ?>">
-                <img src="https://image.tmdb.org/t/p/w500<?= htmlspecialchars($film->getPoster_path()) ?>" 
-                     alt="<?= htmlspecialchars($film->getTitle()) ?>">
-            </a>
-
-            <div class="movie-card-body">
-                <h3><?= htmlspecialchars($film->getTitle()) ?></h3>
-                
-                <p class="release-date">
-                    <?= htmlspecialchars($film->getRelease_date()) ?> 📅
-                </p>
-
-                <div class="movie-status">
-                    <?php if ($film->getIsWatched()): ?>
-                        <span class="status-icon watched">Vu 👁️</span>
-                    <?php else: ?>
-                        <span class="status-icon to-watch">À voir 🕐</span>
+    <div class="movie-grid">
+        <?php foreach ($films as $film): ?>
+            <div class="movie-card">
+                <a href="index.php?route=show&id=<?= $film->getId() ?>">
+                    <?php if (!empty($film->getPoster_path())) : ?>
+                        <img src="https://image.tmdb.org/t/p/w500<?= htmlspecialchars($film->getPoster_path()) ?>" 
+                             alt="<?= htmlspecialchars($film->getTitle()) ?>">
+                    <?php else : ?>
+                        <div class="no-poster-card">
+                            <span class="no-poster-label">Film indisponible</span>
+                            <span class="no-poster-icon">🎥</span>
+                        </div>
                     <?php endif; ?>
+                </a>
+
+                <div class="movie-card-body">
+                    <h3><?= htmlspecialchars($film->getTitle()) ?></h3>
+
+                    <p class="release-date">
+                        <?= htmlspecialchars($film->getRelease_date() ?? 'n/c') ?> 📅
+                    </p>
+
+                    <div class="movie-status">
+                        <?php if ($film->getIsWatched()): ?>
+                            <span class="status-icon watched">Vu 👁️</span>
+                        <?php else: ?>
+                            <span class="status-icon to-watch">À voir 🕐</span>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
-        </div>
-    <?php endforeach; ?>
-</div>
+        <?php endforeach; ?>
+    </div>
 <?php endif; ?>
 
 </body>
