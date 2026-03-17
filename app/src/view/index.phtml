@@ -29,24 +29,32 @@
 <?php if (empty($films)): ?>
     <p class="empty-msg">Votre vidéothèque est vide. Commencez votre collection !</p>
 <?php else: ?>
-    <div class="movie-grid">
-        <?php foreach ($films as $film): ?>
-            <div class="movie-card">
-                <a href="index.php?route=show&id=<?= $film->getId() ?>">
-                    <img src="https://image.tmdb.org/t/p/w500<?= htmlspecialchars($film->getPoster_path()) ?>" 
-                         alt="<?= htmlspecialchars($film->getTitle()) ?>">
-                </a>
+<div class="movie-grid">
+    <?php foreach ($films as $film): ?>
+        <div class="movie-card">
+            <a href="index.php?route=show&id=<?= $film->getId() ?>">
+                <img src="https://image.tmdb.org/t/p/w500<?= htmlspecialchars($film->getPoster_path()) ?>" 
+                     alt="<?= htmlspecialchars($film->getTitle()) ?>">
+            </a>
 
-                <div class="movie-card-body">
-                    <h3><?= htmlspecialchars($film->getTitle()) ?></h3>
-                    <p>
-                        <?= htmlspecialchars($film->getRelease_date()) ?> •
-                        <?= $film->getIsWatched() ? 'Vu' : 'À voir' ?>
-                    </p>
+            <div class="movie-card-body">
+                <h3><?= htmlspecialchars($film->getTitle()) ?></h3>
+                
+                <p class="release-date">
+                    <?= htmlspecialchars($film->getRelease_date()) ?> 📅
+                </p>
+
+                <div class="movie-status">
+                    <?php if ($film->getIsWatched()): ?>
+                        <span class="status-icon watched">Vu 👁️</span>
+                    <?php else: ?>
+                        <span class="status-icon to-watch">À voir 🕐</span>
+                    <?php endif; ?>
                 </div>
             </div>
-        <?php endforeach; ?>
-    </div>
+        </div>
+    <?php endforeach; ?>
+</div>
 <?php endif; ?>
 
 </body>

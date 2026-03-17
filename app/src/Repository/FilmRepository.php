@@ -119,14 +119,14 @@ public function delete (int $id)
 }
 
 
-public function findbyTmdbid(int $tmdbid)
+public function findByTmdbId(int $tmdbid): ?Film
 {
-
-    $sql = "select* FROM film WHERE tmdb_id = :tdb_id";
-    $request = $this->pdo->prepare($sql);
-    $request->execute( ['tmdb_id'=> $tmdbid]);
-    return $request->fetch();
-
+    $sql = "SELECT * FROM film WHERE tmdb_id = :tmdb_id LIMIT 1";
+    $request = $this->getPDO()->prepare($sql);
+    $request->execute(['tmdb_id' => $tmdbid]);
+    $request->setFetchMode(\PDO::FETCH_CLASS, Film::class);
+    $film = $request->fetch();
+    return $film ?: null;
 }
 
 public function insertFromTmdb(array $film): int
@@ -138,21 +138,30 @@ public function insertFromTmdb(array $film): int
 
     $request = $this->getPDO()->prepare($sql);
 
+    $releaseDate = null;
+    if (!empty($film['release_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $film['release_date'])) {
+        $releaseDate = $film['release_date'];
+    }
+
+    $genreId = null;
+    if (!empty($film['genre_id'])) {
+        $genreId = $film['genre_id'];
+    }
+
     $request->execute([
-        'tmdb_id' => $film['id'],
-        'title' => $film['title'],
-        'poster_path' => $film['poster_path'],
-        'release_date' => !empty($film['release_date']) ? substr($film['release_date'], 0, 4) : null,
+        'tmdb_id' => $film['id'] ?? null,
+        'title' => $film['title'] ?? '',
+        'poster_path' => $film['poster_path'] ?? null,
+        'release_date' => $releaseDate,
         'runtime' => $film['runtime'] ?? null,
         'overview' => $film['overview'] ?? null,
-        'genre_id' => null,
-        'description' => null,
-        'isWatched' => 0
+        'genre_id' => $genreId,
+        'description' => $film['overview'] ?? null,
+        'isWatched' => 0,
     ]);
 
     return (int) $this->getPDO()->lastInsertId();
 }
-
 
 
 }

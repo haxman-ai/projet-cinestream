@@ -83,10 +83,19 @@ class FilmController
     }
 
     if (!empty($_POST)) {
-        $genreId = (int) ($_POST['genre_id'] ?? 0);
+        // CORRECTION ICI : 
+        // On récupère la valeur. Si elle est vide ou égale à "0", on met null.
+        $genreId = $_POST['genre_id'] ?? null;
+        if ($genreId === "" || $genreId == 0) {
+            $genreId = null;
+        } else {
+            $genreId = (int) $genreId;
+        }
+
         $description = $_POST['description'] ?? '';
         $isWatched = (int) ($_POST['isWatched'] ?? 0);
 
+        // On passe maintenant $genreId qui vaut soit un ID valide, soit null
         $this->filmRepository->update($id, $genreId, $description, $isWatched);
 
         header('Location: index.php?route=show&id=' . $id);
@@ -94,14 +103,12 @@ class FilmController
     }
 
     $genres = $this->genreRepository->findAll();
-
     require __DIR__ . '/../view/update.phtml';
 }
 
-
 public function search(): void
 {
-    $query = trim($_GET['query'] ?? '');
+    $query = ($_GET['query'] ?? '');
     $results = [];
 
     if ($query !== '') {
@@ -134,34 +141,35 @@ public function showTmdb(): void
 
 
 
-public function add ()
 
-{
-    $tmdbid = $_GET['tmdb_id'] ?? null;
+    public function add(): void
+    {
+        $tmdbid = (int)($_GET['tmdb_id'] ?? 0);
 
-    if (!$tmdbid) {
-        echo "identifiant TMDB manquant";
-        return;
+        if ($tmdbid <= 0) {
+            echo 'film introuvable';
+            return;
+        }
+
+        $tmdb = new \Cine\App\Service\Tmdb\Tmdb();
+        $filmdata = $tmdb->getFilmByTmdbId($tmdbid);
+
+        if (empty($filmdata)) {
+            echo 'film introuvable';
+            return;
+        }
+
+        $existingfilm = $this->filmRepository->findByTmdbId($tmdbid);
+
+        if ($existingfilm) {
+            header('Location: index.php?route=update&id=' . $existingfilm->getId());
+            exit;
+        }
+
+        $newfilmid = $this->filmRepository->insertFromTmdb($filmdata);
+
+        header('Location: index.php?route=update&id=' . $newfilmid);
+        exit;
     }
-     
-    if ($this->filmRepository->findbyTmdbid ((int) $tmdbid)) {
-        echo "ce film est déja dans la vidéothéque";
-        return;
-    }
-
-    $tmdb = new Tmdb();
-    $film = $tmdb->getFilmByTmdbId((int) $tmdbid);
-
-    $newId = $this->filmRepository->insertFromTmdb($film);
-
-    header ('location:index.php?route=update&id=' . $newId);
-  
-
-    
-
-
-
-
-}
 
 }

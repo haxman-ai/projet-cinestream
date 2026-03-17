@@ -38,7 +38,7 @@ $voteCount = isset($film['vote_count']) ? (int)$film['vote_count'] : 0;
                         alt="<?= htmlspecialchars($film['title'] ?? 'Film') ?>"
                     >
                 <?php else: ?>
-                    <div class="no-poster large">Affiche indisponible</div>
+                    <div class="no-poster large"><span> 🎥</span></div>
                 <?php endif; ?>
             </div>
 

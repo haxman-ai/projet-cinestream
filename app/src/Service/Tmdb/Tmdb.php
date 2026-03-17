@@ -18,8 +18,12 @@ class Tmdb
 
     public function getFilmByTmdbId($id) : ?array
     {
-        return $this->tmdb_get('/movie/' . (int)$id);
+        $data =  $this->tmdb_get('/movie/' . (int)$id);
+        return empty($data) ? null : $data;
+
+
     }
+
 
     private function tmdb_get($endpoint, $params = []) 
     {
@@ -28,6 +32,14 @@ class Tmdb
         $params['language'] = 'fr-FR';
         $url = self::BASE_URL . $endpoint . '?' . http_build_query($params);
         $response = file_get_contents($url);
-        return json_decode($response, true);
+
+        if($response === false) {
+            return [];
+        }
+        $data = json_decode($response, true);
+        return is_array ($data) ? $data : [];
     }
+
+
+
 }

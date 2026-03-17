@@ -1,43 +1,53 @@
-<?php
-
-use Cine\App\Service\Tmdb\Tmdb;
-
+<?php 
+// On appelle le header qui contient DEJA la barre de recherche
+require 'header.phtml'; 
 ?>
+<form action="index.php" method="GET" class="search-form">
 
-<form method="GET" action="index.php">
     <input type="hidden" name="route" value="search">
-    <input type="text" name="query" value="<?= htmlspecialchars($query ?? '') ?>" placeholder="Rechercher un film">
-    <button type="submit">Rechercher</button>
+
+    <input
+        type="text"
+        name="query"
+        class="search-input"
+        placeholder="Rechercher un film..."
+    >
+
+    <button type="submit" class="search-button">
+        Rechercher
+    </button>
+
 </form>
+<div class="search-results-container">
+    <?php if (!empty($query)): ?>
+        <h2>Résultats pour : "<?= htmlspecialchars($query) ?>"</h2>
+    <?php endif; ?>
 
-<?php if (!empty($query) && empty($results)): ?>
-    <p>Aucun résultat trouvé.</p>
-<?php endif; ?>
+    <?php if (!empty($query) && empty($results)): ?>
+        <p>Aucun résultat trouvé.</p>
+    <?php endif; ?>
 
-<?php if (!empty($results)): ?>
-    <div class="movie-grid">
-        <?php foreach ($results as $result): ?>
-            <?php if (!is_array($result)): ?>
-                <?php continue; ?>
-            <?php endif; ?>
+    <?php if (!empty($results)): ?>
+        <div class="movie-grid">
+            <?php foreach ($results as $result): ?>
+                <?php if (!is_array($result)) continue; ?>
 
-            <a href="index.php?route=showTmdb&tmdb_id=<?= (int)($result['id'] ?? 0) ?>" class="movie-card">
-                
-                <?php if (!empty($result['poster_path'])): ?>
-                    <img
-                        src="<?= Tmdb::IMG_URL . $result['poster_path'] ?>"
-                        alt="<?= htmlspecialchars($result['title'] ?? 'Film') ?>"
-                    >
-                <?php else: ?>
-                    <div class="no-poster">Affiche indisponible</div>
-                <?php endif; ?>
+                <a href="index.php?route=showTmdb&tmdb_id=<?= (int)($result['id'] ?? 0) ?>" class="movie-card">
+                    <?php if (!empty($result['poster_path'])): ?>
+                        <img
+                            src="<?= \Cine\App\Service\Tmdb\Tmdb::IMG_URL . $result['poster_path'] ?>"
+                            alt="<?= htmlspecialchars($result['title'] ?? 'Film') ?>"
+                        >
+                    <?php else: ?>
+                        <div class="no-poster">Affiche indisponible</div>
+                    <?php endif; ?>
 
-                <h3><?= htmlspecialchars($result['title'] ?? 'Titre inconnu') ?></h3>
-
-                <p>
-                    <?= !empty($result['release_date']) ? htmlspecialchars(substr($result['release_date'], 0, 4)) : 'n/c' ?>
-                </p>
-            </a>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
+                    <h3><?= htmlspecialchars($result['title'] ?? 'Titre inconnu') ?></h3>
+                    <p>
+                        <?= !empty($result['release_date']) ? htmlspecialchars(substr($result['release_date'], 0, 4)) : 'n/c' ?>
+                    </p>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</div>

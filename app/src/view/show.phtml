@@ -35,9 +35,8 @@
                     </span>
 
                     <span class="rating">
-                        ⭐ <?= $film->getVote_average() !== null
-                            ? htmlspecialchars((string)$film->getVote_average()) . '/10'
-                            : 'Non noté' ?>
+                    <span>🎭 <?= htmlspecialchars(!empty($genreNames) ? implode(', ', $genreNames) : 'n/c') ?></span>
+                     <span>⏱ <?= htmlspecialchars((string)($film->getRuntime() ?? 'n/c')) ?> min</span>
                     </span>
 
                     <span class="status-badge <?= $film->getIsWatched() ? 'watched' : 'to-watch' ?>">
@@ -53,14 +52,14 @@
                 </p>
 
                 <div class="actions">
-                    <a href="index.php?route=update&id=<?= $film->getId() ?>" class="btn-edit">
-                        ✏️ Modifier la fiche
-                    </a>
+                    <a href="index.php?route=update&id=<?= $film->getId() ?>">✏️</a>
+                    
+                   
 
                     <a href="index.php?route=delete&id=<?= $film->getId() ?>"
-                       class="btn-delete"
+                
                        onclick="return confirmerSuppression(event, '<?= addslashes($film->getTitle() ?? 'ce film') ?>')">
-                        ❌ Supprimer le film
+                        ❌ 
                     </a>
                 </div>
             </div>
